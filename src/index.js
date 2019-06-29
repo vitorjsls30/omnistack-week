@@ -8,7 +8,7 @@ const app = new express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-mongoose.connect('mongodb+srv://vitosacramento:1JY1JyXh2M4vDviG@cluster0-eglsg.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://<DB_USER>:<DB_PWD>@cluster0-eglsg.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true
 });
 

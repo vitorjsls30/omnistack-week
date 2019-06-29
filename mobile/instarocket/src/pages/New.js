@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import api from '../services/api';
 import ImagePicker from 'react-native-image-picker';
 
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Image } from 'react-native';
@@ -17,7 +18,7 @@ export default class New extends Component {
     hashtags: '',
   }
 
-  handleSelectImage= () => {
+  handleSelectImage = () => {
     ImagePicker.showImagePicker({
       title: 'Selecionar imagem',
     }, upload => {
@@ -48,6 +49,20 @@ export default class New extends Component {
         this.setState({ preview, image });
       }
     })
+  }
+
+  handleSubmit = async () => {
+    const data = new FormData();
+
+    data.append('image', this.state.image);
+    data.append('author', this.state.author);
+    data.append('place', this.state.place);
+    data.append('description', this.state.description);
+    data.append('hashtags', this.state.hashtags);
+
+    await api.post('posts', data);
+    
+    this.props.navigation.navigate('Feed');
   }
 
   render() {
@@ -92,7 +107,7 @@ export default class New extends Component {
           onChangeText={hashtags => this.setState({ hashtags })}
         />
 
-        <TouchableOpacity style={styles.shareButton} onPress={() => {}}>
+        <TouchableOpacity style={styles.shareButton} onPress={this.handleSubmit}>
           <Text style={styles.sharetButtonText}>Compartilhar</Text>
         </TouchableOpacity>
       </View>
